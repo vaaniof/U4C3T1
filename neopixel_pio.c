@@ -272,18 +272,22 @@ void ExecutaAcao(char tecla)
   case 'B':
     for (uint i = 0; i < LED_COUNT; ++i)
       npSetLED(i, 0, 0, 255);
+    npWrite();
     break;
   case 'C':
     for (uint i = 0; i < LED_COUNT; ++i)
       npSetLED(i, 204, 0, 0);
+    npWrite();
     break;
   case 'D':
     for (uint i = 0; i < LED_COUNT; ++i)
       npSetLED(i, 0, 127, 0);
+    npWrite();
     break;
   case '#':
     for (uint i = 0; i < LED_COUNT; ++i)
       npSetLED(i, 50, 50, 50);
+    npWrite();
     break;
   case '*':
     ModoBootsel();

@@ -1,0 +1,4 @@
+[wokwi]
+version = 1
+firmware = 'build/Neopixel_pio.hex'
+elf = 'build/Neopixel_pio.elf'
