@@ -74,6 +74,7 @@ target_include_directories(neopixel_pio PRIVATE
 target_link_libraries(neopixel_pio 
         hardware_pio
         hardware_clocks
+        pico_bootrom
         )
 
 pico_add_extra_outputs(neopixel_pio)
