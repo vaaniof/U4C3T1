@@ -33,6 +33,12 @@ char ultimaTecla = 'X';
 void inicializar();
 char AcharDigito();
 void Processar(char);
+void ExecutaAcao(char);
+void ModoBootsel();
+void npInit(uint);
+void npSetLED(const uint, const uint8_t, const uint8_t, const uint8_t);
+void npClear();
+void npWrite();
 void Animacao_0();
 void Animacao_1();
 void Animacao_2();
@@ -43,6 +49,7 @@ void Animacao_6();
 void Animacao_7();
 void Animacao_8();
 void Animacao_9();
+
 
 // Definição de pixel GRB
 struct pixel_t {
@@ -58,58 +65,10 @@ npLED_t leds[LED_COUNT]; //buffer de pixels que formam a matriz.
 PIO np_pio;
 uint sm;
 
-//Inicializa a máquina PIO para controle da matriz de LEDs.
-void npInit(uint pin) {
-
-  // Cria programa PIO.
-  uint offset = pio_add_program(pio0, &ws2818b_program);
-  np_pio = pio0;
-
-  // Toma posse de uma máquina PIO.
-  sm = pio_claim_unused_sm(np_pio, false);
-  if (sm < 0) {
-    np_pio = pio1;
-    sm = pio_claim_unused_sm(np_pio, true); // Se nenhuma máquina estiver livre, panic!
-  }
-
-  // Inicia programa na máquina PIO obtida.
-  ws2818b_program_init(np_pio, sm, offset, pin, 800000.f);
-
-  // Limpa buffer de pixels.
-  for (uint i = 0; i < LED_COUNT; ++i) {
-    leds[i].R = 0;
-    leds[i].G = 0;
-    leds[i].B = 0;
-  }
-}
-
-//Atribui uma cor RGB a um LED.
-void npSetLED(const uint index, const uint8_t r, const uint8_t g, const uint8_t b) {
-  leds[index].R = r;
-  leds[index].G = g;
-  leds[index].B = b;
-}
-
-//Limpa o buffer de pixels.
-void npClear() {
-  for (uint i = 0; i < LED_COUNT; ++i)
-    npSetLED(i, 0, 0, 0);
-}
-
-//Escreve os dados do buffer nos LEDs.
-void npWrite() {
-  // Escreve cada dado de 8-bits dos pixels em sequência no buffer da máquina PIO.
-  for (uint i = 0; i < LED_COUNT; ++i) {
-    pio_sm_put_blocking(np_pio, sm, leds[i].G);
-    pio_sm_put_blocking(np_pio, sm, leds[i].R);
-    pio_sm_put_blocking(np_pio, sm, leds[i].B);
-  }
-  sleep_us(100); // Espera 100us, sinal de RESET do datasheet.
-}
-
 int main() {
   char tecla;
   stdio_init_all();
+  inicializar();
 
   while (true) {
     tecla = AcharDigito();
@@ -117,6 +76,7 @@ int main() {
     sleep_ms(1000);
   }
 }
+
 void inicializar(){
     // inicialização dos pinos
     npInit(LED_PIN);
@@ -193,38 +153,123 @@ void Processar(char tecla){
         if (ultimaTecla != tecla)
             printf("Tecla %c Pressionada\n",tecla);
         ultimaTecla = tecla;
-
-        //caso seja uma das teclas especiais executa as ações
-        switch (tecla){
-        case 'A':
-          //
-          break;
-        case 'B':
-          //
-          break;
-        case 'C':
-          //
-          break;
-        case 'D':
-          //
-          break;
-        case '#':
-          //
-          break;
-        case '*':
-          //
-          break;
-        default:
-            break;
-            }
-        }
-
-        //se nenhuma tecla estiver sendo pressionada 
-        else
-        {
-
-        
+        ExecutaAcao(tecla);
         }
         sleep_ms(100);
 }
+void ModoBootsel() {
+    printf("Entrando em modo BOOTSEL...\n");
+    sleep_ms(1000);  // Aguarde um segundo antes de reiniciar
+    rom_reset_usb_boot(0,0);  // Reinicia e entra no modo BOOTSEL
+}
+//Inicializa a máquina PIO para controle da matriz de LEDs.
+void npInit(uint pin) {
 
+  // Cria programa PIO.
+  uint offset = pio_add_program(pio0, &ws2818b_program);
+  np_pio = pio0;
+
+  // Toma posse de uma máquina PIO.
+  sm = pio_claim_unused_sm(np_pio, false);
+  if (sm < 0) {
+    np_pio = pio1;
+    sm = pio_claim_unused_sm(np_pio, true); // Se nenhuma máquina estiver livre, panic!
+  }
+
+  // Inicia programa na máquina PIO obtida.
+  ws2818b_program_init(np_pio, sm, offset, pin, 800000.f);
+
+  // Limpa buffer de pixels.
+  for (uint i = 0; i < LED_COUNT; ++i) {
+    leds[i].R = 0;
+    leds[i].G = 0;
+    leds[i].B = 0;
+  }
+}
+
+//Atribui uma cor RGB a um LED.
+void npSetLED(const uint index, const uint8_t r, const uint8_t g, const uint8_t b) {
+  leds[index].R = r;
+  leds[index].G = g;
+  leds[index].B = b;
+}
+
+//Limpa o buffer de pixels.
+void npClear() {
+  for (uint i = 0; i < LED_COUNT; ++i)
+    npSetLED(i, 0, 0, 0);
+}
+
+//Escreve os dados do buffer nos LEDs.
+void npWrite() {
+  // Escreve cada dado de 8-bits dos pixels em sequência no buffer da máquina PIO.
+  for (uint i = 0; i < LED_COUNT; ++i) {
+    pio_sm_put_blocking(np_pio, sm, leds[i].G);
+    pio_sm_put_blocking(np_pio, sm, leds[i].R);
+    pio_sm_put_blocking(np_pio, sm, leds[i].B);
+  }
+  sleep_us(100); // Espera 100us, sinal de RESET do datasheet.
+}
+
+void ExecutaAcao(char tecla){
+        //executa as ações de cada Tecla
+        switch (tecla){
+        case '0' :
+          Animacao_0();
+          break;
+        case '1' :
+          Animacao_1();
+          break;
+        case '2' :
+          Animacao_2();
+          break;
+        case '3' :
+          Animacao_3();
+          break;
+        case '4' :
+          Animacao_4();
+          break;
+        case '5' :
+          Animacao_5();
+          break;
+        case '6' :
+          Animacao_6();
+          break;
+        case '7' :
+          Animacao_7();
+          break;
+        case '8' :
+          Animacao_8();
+          break;
+        case '9' :
+          Animacao_9();
+          break;
+        case 'A':
+          npClear();
+          npWrite();
+          break;
+        case 'B':
+          for (uint i = 0; i < LED_COUNT; ++i)
+            npSetLED(i, 0, 0, 255);
+          break;
+        case 'C':
+          for (uint i = 0; i < LED_COUNT; ++i)
+            npSetLED(i, 204, 0, 0);
+          break;
+        case 'D':
+          for (uint i = 0; i < LED_COUNT; ++i)
+            npSetLED(i, 0, 127, 0);
+          break;
+        case '#':
+          for (uint i = 0; i < LED_COUNT; ++i)
+            npSetLED(i, 50, 50, 50);
+          break;
+        case '*':
+          ModoBootsel();
+          break;
+        default:
+            printf("[ERRO] VALOR NAO ESPERADO RECEBIDO");
+            exit(1);
+            break;
+            }
+}
