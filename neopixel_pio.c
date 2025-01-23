@@ -19,6 +19,31 @@
 #define C3 9
 #define C4 8
 
+//Matriz de Mapeamento
+char MatrizMapeamento [NUM_LINHAS][NUM_COLUNAS] = {
+    {'1','2','3','A'},
+    {'4','5','6','B'},
+    {'7','8','9','C'},
+    {'*','0','#','D'}
+};
+
+char ultimaTecla = 'X';
+
+//Protótipos das Funções
+void inicializar();
+char AcharDigito();
+void Processar(char);
+void Animacao_0();
+void Animacao_1();
+void Animacao_2();
+void Animacao_3();
+void Animacao_4();
+void Animacao_5();
+void Animacao_6();
+void Animacao_7();
+void Animacao_8();
+void Animacao_9();
+
 // Definição de pixel GRB
 struct pixel_t {
   uint8_t G, R, B; // Três valores de 8-bits compõem um pixel.
@@ -83,20 +108,123 @@ void npWrite() {
 }
 
 int main() {
-
-  // Inicializa entradas e saídas.
+  char tecla;
   stdio_init_all();
 
-  // Inicializa matriz de LEDs NeoPixel.
-  npInit(LED_PIN);
-  npClear();
-
-  // Aqui, você desenha nos LEDs.
-
-  npWrite(); // Escreve os dados nos LEDs.
-
-  // Não faz mais nada. Loop infinito.
   while (true) {
+    tecla = AcharDigito();
+    Processar(tecla);
     sleep_ms(1000);
   }
 }
+void inicializar(){
+    // inicialização dos pinos
+    npInit(LED_PIN);
+    npClear();
+
+    gpio_init(BUZZER_PIN);
+    gpio_set_dir(BUZZER_PIN, GPIO_OUT);
+    gpio_put(BUZZER_PIN,0);
+
+    gpio_init(R1);
+    gpio_set_dir(R1, GPIO_OUT);
+    gpio_put(R1, 1);  // Inicializando as linhas do teclado em nível alto
+
+    gpio_init(R2);
+    gpio_set_dir(R2, GPIO_OUT);
+    gpio_put(R2, 1);
+
+    gpio_init(R3);
+    gpio_set_dir(R3, GPIO_OUT);
+    gpio_put(R3, 1);
+
+    gpio_init(R4);
+    gpio_set_dir(R4, GPIO_OUT);
+    gpio_put(R4, 1);
+
+    // Inicializando os pinos das colunas como entrada com pull up
+    gpio_init(C1);
+    gpio_set_dir(C1, GPIO_IN);
+    gpio_pull_up(C1);
+
+    gpio_init(C2);
+    gpio_set_dir(C2, GPIO_IN);
+    gpio_pull_up(C2);
+
+    gpio_init(C3);
+    gpio_set_dir(C3, GPIO_IN);
+    gpio_pull_up(C3);
+
+    gpio_init(C4);
+    gpio_set_dir(C4, GPIO_IN);
+    gpio_pull_up(C4);
+}
+char AcharDigito() {
+    for (int linha = 0; linha < 4; linha++) {
+        // Coloca todas as linhas em nível alto
+        gpio_put(R1, 1);
+        gpio_put(R2, 1);
+        gpio_put(R3, 1);
+        gpio_put(R4, 1);
+
+        // Coloca a linha atual em nível baixo
+        switch (linha) {
+            case 0: gpio_put(R1, 0); break;
+            case 1: gpio_put(R2, 0); break;
+            case 2: gpio_put(R3, 0); break;
+            case 3: gpio_put(R4, 0); break;
+        }
+
+        // Verifica as colunas
+        if (!gpio_get(C1)) return MatrizMapeamento[linha][0];
+        if (!gpio_get(C2)) return MatrizMapeamento[linha][1];
+        if (!gpio_get(C3)) return MatrizMapeamento[linha][2];
+        if (!gpio_get(C4)) return MatrizMapeamento[linha][3];
+    }
+
+    // Retorna um caractere nulo caso nenhuma tecla tenha sido pressionada
+    return '\0';
+}
+void Processar(char tecla){
+    
+    if (tecla != '\0'){
+
+        //escreve a tecla somente se for diferente da ultima pressionada, evitando leituras repetidas 
+        if (ultimaTecla != tecla)
+            printf("Tecla %c Pressionada\n",tecla);
+        ultimaTecla = tecla;
+
+        //caso seja uma das teclas especiais executa as ações
+        switch (tecla){
+        case 'A':
+          //
+          break;
+        case 'B':
+          //
+          break;
+        case 'C':
+          //
+          break;
+        case 'D':
+          //
+          break;
+        case '#':
+          //
+          break;
+        case '*':
+          //
+          break;
+        default:
+            break;
+            }
+        }
+
+        //se nenhuma tecla estiver sendo pressionada 
+        else
+        {
+
+        
+        }
+        sleep_ms(100);
+}
+
