@@ -320,7 +320,6 @@ void Animacao_0(){
     npWrite();
     sleep_ms(200);
   }
-  
 }
 void Animacao_1(){
   npClear();
@@ -342,6 +341,19 @@ void Animacao_6(){
 }
 void Animacao_7(){
   npClear();
+  npSetLED(24,120,0,0);
+  npWrite();
+  sleep_ms(200);
+  for (uint i = (LED_COUNT-1),p = LED_COUNT;p>0 ; --i,--p){
+    if (i>=0)
+      npSetLED(i, 120, 0, 0);
+    if (p<LED_COUNT)
+      npSetLED(p,0,0,0);
+    npWrite();
+    sleep_ms(200);
+  }
+  npSetLED(0,0,0,0);
+  npWrite();
 }
 void Animacao_8(){
   npClear();
