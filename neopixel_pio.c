@@ -368,13 +368,66 @@ void Animacao_1(){
   npWrite();
 }
 void Animacao_2(){
+  bool s = true;
   npClear();
+  npSetLED(24,120,0,0);
+  npWrite();
+  sleep_ms(200);
+  for (uint i = (LED_COUNT-1),p = LED_COUNT ;p>0 ; --i,--p,s = !s){
+    if (i>=0){
+      if (s)
+        npSetLED(i, 120, 0, 0);
+      else
+        npSetLED(i,0,120,0);
+    }
+
+    if (p<LED_COUNT)
+      npSetLED(p,0,0,0);
+    npWrite();
+    sleep_ms(200);
+  }
+  npSetLED(0,0,0,0);
+  npWrite();
 }
 void Animacao_3(){
+  bool s = true;
   npClear();
+  npSetLED(24,0,0,120);
+  npWrite();
+  sleep_ms(200);
+  for (uint i = (LED_COUNT-1),p = LED_COUNT ;p>0 ; --i,--p,s = !s){
+    if (i>=0){
+      if (s)
+        npSetLED(i, 0, 0, 120);
+      else
+        npSetLED(i,120,120,120);
+    }
+
+    if (p<LED_COUNT)
+      npSetLED(p,0,0,0);
+    npWrite();
+    sleep_ms(200);
+  }
+  npSetLED(0,0,0,0);
+  npWrite();
 }
 void Animacao_4(){
+  bool s = true;
   npClear();
+  npSetLED(0,120,120,120);
+  npWrite();
+  sleep_ms(200);
+  for (uint i = 1,p = 0; p < LED_COUNT; ++i,++p, s = !s){
+    if (i<LED_COUNT){
+      if (s)
+        npSetLED(i, 0, 0, 120);
+      else
+        npSetLED(i,120,120,120);
+    }
+    npSetLED(p,0,0,0);
+    npWrite();
+    sleep_ms(200);
+  }
 }
 void Animacao_5(){
   npClear();
