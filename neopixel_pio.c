@@ -338,6 +338,38 @@ void Animacao_5(){
 }
 void Animacao_6(){
   npClear();
+  npSetLED(12,50,50,50);
+  npSetLED(3,50,50,50);
+  npSetLED(6,50,50,50);
+  npSetLED(1,50,50,50);
+  npSetLED(8,50,50,50);
+  npSetLED(14,50,50,50);
+  npSetLED(18,50,50,50);
+  npSetLED(16,50,50,50);
+  npSetLED(22,50,50,50);
+  npSetLED(17,50,50,50);
+  npSetLED(10,50,50,50);
+  npWrite();
+  sleep_ms(50);
+  for (int i = 0;i<7;i++){
+    if (i%2){
+      npSetLED(14,50,50,50);
+      npSetLED(24,0,0,0);
+      gpio_put(BUZZER_PIN,1);
+      sleep_ms(500);
+      gpio_put(BUZZER_PIN,0);
+    }else{
+      npSetLED(24,50,50,50);
+      npSetLED(14,0,0,0);
+      gpio_put(BUZZER_PIN,1);
+      sleep_ms(500);
+      gpio_put(BUZZER_PIN,0);
+    }
+    npWrite();
+    sleep_ms(50);
+  }
+  npClear();
+  npWrite();
 }
 void Animacao_7(){
   npClear();
