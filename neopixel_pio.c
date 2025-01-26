@@ -323,6 +323,49 @@ void Animacao_0(){
 }
 void Animacao_1(){
   npClear();
+  //rosto feliz
+  npSetLED(1,120,0,0);
+  npSetLED(2,120,0,0);
+  npSetLED(3,120,0,0);
+  npSetLED(5,120,0,0);
+  npSetLED(9,120,0,0);
+  npSetLED(16,120,0,0);
+  npSetLED(18,120,0,0);
+  npWrite();
+  //piscar olho esquerdo
+  sleep_ms(500);
+  npSetLED(16,0,0,0);
+  npWrite();
+  sleep_ms(500);
+  npSetLED(16,120,0,0);
+  npWrite();
+  //piscar olho direito
+  sleep_ms(500);
+  npSetLED(18,0,0,0);
+  npWrite();
+  sleep_ms(500);
+  npSetLED(18,120,0,0);
+  npWrite();
+  //mudar expressão
+  npSetLED(1,0,0,0);
+  npSetLED(2,0,0,0);
+  npSetLED(3,0,0,0);
+  npSetLED(5,0,0,0);
+  npSetLED(9,0,0,0);
+  npWrite();
+  sleep_ms(500);
+  npSetLED(6,120,0,0);
+  npSetLED(7,120,0,0);
+  npSetLED(8,120,0,0);
+  npWrite();
+  sleep_ms(500);
+  npSetLED(0,120,0,0);
+  npSetLED(4,120,0,0);
+  npWrite();
+  //limpar a tela
+  sleep_ms(500);
+  npClear();
+  npWrite();
 }
 void Animacao_2(){
   npClear();
