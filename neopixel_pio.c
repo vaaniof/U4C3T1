@@ -334,18 +334,113 @@ void Animacao_7(){
 }
 void Animacao_8(){
   npClear();
+  //L
+  for (uint i = 0; i < 6; ++i)
+    npSetLED(i, 120, 0, 0);
+  npSetLED(14,120,0,0);
+  npSetLED(15,120,0,0);
+  npSetLED(24,120,0,0);
+  npWrite();
+  sleep_ms(500);
+  //O
+  npClear();
+  npSetLED(1,120,0,0);
+  npSetLED(2,120,0,0);
+  npSetLED(3,120,0,0);
+  npSetLED(5,120,0,0);
+  npSetLED(9,120,0,0);
+  npSetLED(10,120,0,0);
+  npSetLED(14,120,0,0);
+  npSetLED(15,120,0,0);
+  npSetLED(19,120,0,0);
+  npSetLED(21,120,0,0);
+  npSetLED(22,120,0,0);
+  npSetLED(23,120,0,0);
+  npWrite();
+  sleep_ms(500);
+  //V
+  npClear();
+  npSetLED(2,120,0,0);
+  npSetLED(6,120,0,0);
+  npSetLED(8,120,0,0);
+  npSetLED(10,120,0,0);
+  npSetLED(14,120,0,0);
+  npSetLED(15,120,0,0);
+  npSetLED(19,120,0,0);
+  npSetLED(20,120,0,0);
+  npSetLED(24,120,0,0);
+  npWrite();
+  sleep_ms(500);
+  //E
+  npClear();
+  npSetLED(20,120,0,0);
+  npSetLED(21,120,0,0);
+  npSetLED(22,120,0,0);
+  npSetLED(23,120,0,0);
+  npSetLED(24,120,0,0);
+  npSetLED(15,120,0,0);
+  npSetLED(14,120,0,0);
+  npSetLED(5,120,0,0);
+  npSetLED(0,120,0,0);
+  npSetLED(1,120,0,0);
+  npSetLED(2,120,0,0);
+  npSetLED(3,120,0,0);
+  npSetLED(4,120,0,0);
+  npSetLED(10,120,0,0);
+  npSetLED(11,120,0,0);
+  npSetLED(12,120,0,0);
+  npSetLED(13,120,0,0);
+  npWrite();
+  sleep_ms(500);
+  //Coração
+  for (uint i = 0; i < LED_COUNT; ++i)
+    npSetLED(i, 120, 0, 0);
+  npSetLED(0,0,0,0);
+  npSetLED(1,0,0,0);
+  npSetLED(3,0,0,0);
+  npSetLED(4,0,0,0);
+  npSetLED(5,0,0,0);
+  npSetLED(9,0,0,0);
+  npSetLED(20,0,0,0);
+  npSetLED(22,0,0,0);
+  npSetLED(24,0,0,0);
+  npWrite();
+  sleep_ms(500);
+  npClear();
+  npWrite();
 }
 void Animacao_9(){
   npClear();
-  npSetLED(12,255,255,255);
-  npSetLED(3,255,255,255);
-  npSetLED(6,255,255,255);
-  npSetLED(1,255,255,255);
-  npSetLED(8,255,255,255);
-  npSetLED(10,255,255,255);
-  npSetLED(14,255,255,255);
-  npSetLED(18,255,255,255);
-  npSetLED(16,255,255,255);
-  npSetLED(22,255,255,255);
+  npSetLED(12,50,50,50);
+  npSetLED(3,50,50,50);
+  npSetLED(6,50,50,50);
+  npSetLED(1,50,50,50);
+  npSetLED(8,50,50,50);
+  npSetLED(14,50,50,50);
+  npSetLED(18,50,50,50);
+  npSetLED(16,50,50,50);
+  npSetLED(22,50,50,50);
+  npSetLED(17,50,50,50);
+  npSetLED(10,50,50,50);
+  npWrite();
+  sleep_ms(50);
+  for (int i = 0;i<7;i++){
+    if (i%2){
+      npSetLED(10,50,50,50);
+      npSetLED(20,0,0,0);
+      gpio_put(BUZZER_PIN,1);
+      sleep_ms(500);
+      gpio_put(BUZZER_PIN,0);
+    }else{
+      npSetLED(20,50,50,50);
+      npSetLED(10,0,0,0);
+      gpio_put(BUZZER_PIN,1);
+      sleep_ms(500);
+      gpio_put(BUZZER_PIN,0);
+    }
+    npWrite();
+    sleep_ms(50);
+  }
+  npClear();
   npWrite();
 }
