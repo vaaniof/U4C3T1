@@ -414,6 +414,24 @@ void Animacao_3(){
 void Animacao_4(){
   bool s = true;
   npClear();
+  npSetLED(0,120,0,0);
+  npWrite();
+  sleep_ms(200);
+  for (uint i = 1,p = 0; p < LED_COUNT; ++i,++p, s = !s){
+    if (i<LED_COUNT){
+      if (s)
+        npSetLED(i, 0, 120, 0);
+      else
+        npSetLED(i,120,0,0);
+    }
+    npSetLED(p,0,0,0);
+    npWrite();
+    sleep_ms(200);
+  }
+}
+void Animacao_5(){
+  bool s = true;
+  npClear();
   npSetLED(0,120,120,120);
   npWrite();
   sleep_ms(200);
@@ -428,9 +446,6 @@ void Animacao_4(){
     npWrite();
     sleep_ms(200);
   }
-}
-void Animacao_5(){
-  npClear();
 }
 void Animacao_6(){
   npClear();
