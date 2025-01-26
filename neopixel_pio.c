@@ -74,7 +74,7 @@ int main()
   {
     tecla = AcharDigito();
     Processar(tecla);
-    sleep_ms(1000);
+    sleep_ms(200);
   }
 }
 
@@ -120,45 +120,55 @@ void inicializar(){
   gpio_set_dir(C4, GPIO_IN);
   gpio_pull_up(C4);
 }
-char AcharDigito(){
-  for (int linha = 0; linha < 4; linha++)
-  {
-    // Coloca todas as linhas em nível alto
-    gpio_put(R1, 1);
-    gpio_put(R2, 1);
-    gpio_put(R3, 1);
-    gpio_put(R4, 1);
+char AcharDigito() {
+    for (int linha = 0; linha < 4; linha++) {
+        // Coloca todas as linhas em nível alto
+        gpio_put(R1, 1);
+        gpio_put(R2, 1);
+        gpio_put(R3, 1);
+        gpio_put(R4, 1);
 
-    // Coloca a linha atual em nível baixo
-    switch (linha)
-    {
-    case 0:
-      gpio_put(R1, 0);
-      break;
-    case 1:
-      gpio_put(R2, 0);
-      break;
-    case 2:
-      gpio_put(R3, 0);
-      break;
-    case 3:
-      gpio_put(R4, 0);
-      break;
+        // Coloca a linha atual em nível baixo
+        switch (linha) {
+            case 0: 
+                gpio_put(R1, 0);
+                sleep_ms(50); 
+                break;
+            case 1: 
+                gpio_put(R2, 0);
+                sleep_ms(50); 
+                break;
+            case 2: 
+                gpio_put(R3, 0);
+                sleep_ms(50); 
+                break;
+            case 3: 
+                gpio_put(R4, 0);
+                sleep_ms(50); 
+                break;
+        }
+
+        // Verifica as colunas
+            if (!gpio_get(C1)){
+      
+      return MatrizMapeamento[linha][0];
+      }
+    if (!gpio_get(C2)){
+      
+      return MatrizMapeamento[linha][1];
+      }
+    if (!gpio_get(C3)){
+      
+      return MatrizMapeamento[linha][2];
+      }
+    if (!gpio_get(C4)){
+      
+      return MatrizMapeamento[linha][3];
+      }
     }
 
-    // Verifica as colunas
-    if (!gpio_get(C1))
-      return MatrizMapeamento[linha][0];
-    if (!gpio_get(C2))
-      return MatrizMapeamento[linha][1];
-    if (!gpio_get(C3))
-      return MatrizMapeamento[linha][2];
-    if (!gpio_get(C4))
-      return MatrizMapeamento[linha][3];
-  }
-
-  // Retorna um caractere nulo caso nenhuma tecla tenha sido pressionada
-  return '\0';
+    // Retorna um caractere nulo caso nenhuma tecla tenha sido pressionada
+    return '\0';
 }
 void Processar(char tecla){
 
@@ -171,7 +181,7 @@ void Processar(char tecla){
     ultimaTecla = tecla;
     ExecutaAcao(tecla);
   }
-  sleep_ms(100);
+  sleep_ms(10);
 }
 void ModoBootsel(){
   printf("Entrando em modo BOOTSEL...\n");
@@ -298,13 +308,305 @@ void ExecutaAcao(char tecla)
     break;
   }
 }
-void Animacao_0(){}
-void Animacao_1(){}
-void Animacao_2(){}
-void Animacao_3(){}
-void Animacao_4(){}
-void Animacao_5(){}
-void Animacao_6(){}
-void Animacao_7(){}
-void Animacao_8(){}
-void Animacao_9(){}
+void Animacao_0(){
+  npClear();
+  npSetLED(0,120,0,0);
+  npWrite();
+  sleep_ms(200);
+  for (uint i = 1,p = 0; p < LED_COUNT; ++i,++p){
+    if (i<LED_COUNT)
+      npSetLED(i, 120, 0, 0);
+    npSetLED(p,0,0,0);
+    npWrite();
+    sleep_ms(200);
+  }
+}
+void Animacao_1(){
+  npClear();
+  //rosto feliz
+  npSetLED(1,120,0,0);
+  npSetLED(2,120,0,0);
+  npSetLED(3,120,0,0);
+  npSetLED(5,120,0,0);
+  npSetLED(9,120,0,0);
+  npSetLED(16,120,0,0);
+  npSetLED(18,120,0,0);
+  npWrite();
+  //piscar olho esquerdo
+  sleep_ms(500);
+  npSetLED(16,0,0,0);
+  npWrite();
+  sleep_ms(500);
+  npSetLED(16,120,0,0);
+  npWrite();
+  //piscar olho direito
+  sleep_ms(500);
+  npSetLED(18,0,0,0);
+  npWrite();
+  sleep_ms(500);
+  npSetLED(18,120,0,0);
+  npWrite();
+  //mudar expressão
+  npSetLED(1,0,0,0);
+  npSetLED(2,0,0,0);
+  npSetLED(3,0,0,0);
+  npSetLED(5,0,0,0);
+  npSetLED(9,0,0,0);
+  npWrite();
+  sleep_ms(500);
+  npSetLED(6,120,0,0);
+  npSetLED(7,120,0,0);
+  npSetLED(8,120,0,0);
+  npWrite();
+  sleep_ms(500);
+  npSetLED(0,120,0,0);
+  npSetLED(4,120,0,0);
+  npWrite();
+  //limpar a tela
+  sleep_ms(500);
+  npClear();
+  npWrite();
+}
+void Animacao_2(){
+  bool s = true;
+  npClear();
+  npSetLED(24,120,0,0);
+  npWrite();
+  sleep_ms(200);
+  for (uint i = (LED_COUNT-1),p = LED_COUNT ;p>0 ; --i,--p,s = !s){
+    if (i>=0){
+      if (s)
+        npSetLED(i, 120, 0, 0);
+      else
+        npSetLED(i,0,120,0);
+    }
+
+    if (p<LED_COUNT)
+      npSetLED(p,0,0,0);
+    npWrite();
+    sleep_ms(200);
+  }
+  npSetLED(0,0,0,0);
+  npWrite();
+}
+void Animacao_3(){
+  bool s = true;
+  npClear();
+  npSetLED(24,0,0,120);
+  npWrite();
+  sleep_ms(200);
+  for (uint i = (LED_COUNT-1),p = LED_COUNT ;p>0 ; --i,--p,s = !s){
+    if (i>=0){
+      if (s)
+        npSetLED(i, 0, 0, 120);
+      else
+        npSetLED(i,120,120,120);
+    }
+
+    if (p<LED_COUNT)
+      npSetLED(p,0,0,0);
+    npWrite();
+    sleep_ms(200);
+  }
+  npSetLED(0,0,0,0);
+  npWrite();
+}
+void Animacao_4(){
+  bool s = true;
+  npClear();
+  npSetLED(0,120,0,0);
+  npWrite();
+  sleep_ms(200);
+  for (uint i = 1,p = 0; p < LED_COUNT; ++i,++p, s = !s){
+    if (i<LED_COUNT){
+      if (s)
+        npSetLED(i, 0, 120, 0);
+      else
+        npSetLED(i,120,0,0);
+    }
+    npSetLED(p,0,0,0);
+    npWrite();
+    sleep_ms(200);
+  }
+}
+void Animacao_5(){
+  bool s = true;
+  npClear();
+  npSetLED(0,120,120,120);
+  npWrite();
+  sleep_ms(200);
+  for (uint i = 1,p = 0; p < LED_COUNT; ++i,++p, s = !s){
+    if (i<LED_COUNT){
+      if (s)
+        npSetLED(i, 0, 0, 120);
+      else
+        npSetLED(i,120,120,120);
+    }
+    npSetLED(p,0,0,0);
+    npWrite();
+    sleep_ms(200);
+  }
+}
+void Animacao_6(){
+  npClear();
+  npSetLED(12,50,50,50);
+  npSetLED(3,50,50,50);
+  npSetLED(6,50,50,50);
+  npSetLED(1,50,50,50);
+  npSetLED(8,50,50,50);
+  npSetLED(14,50,50,50);
+  npSetLED(18,50,50,50);
+  npSetLED(16,50,50,50);
+  npSetLED(22,50,50,50);
+  npSetLED(17,50,50,50);
+  npSetLED(10,50,50,50);
+  npWrite();
+  sleep_ms(50);
+  for (int i = 0;i<7;i++){
+    if (i%2){
+      npSetLED(14,50,50,50);
+      npSetLED(24,0,0,0);
+      gpio_put(BUZZER_PIN,1);
+      sleep_ms(500);
+      gpio_put(BUZZER_PIN,0);
+    }else{
+      npSetLED(24,50,50,50);
+      npSetLED(14,0,0,0);
+      gpio_put(BUZZER_PIN,1);
+      sleep_ms(500);
+      gpio_put(BUZZER_PIN,0);
+    }
+    npWrite();
+    sleep_ms(50);
+  }
+  npClear();
+  npWrite();
+}
+void Animacao_7(){
+  npClear();
+  npSetLED(24,120,0,0);
+  npWrite();
+  sleep_ms(200);
+  for (uint i = (LED_COUNT-1),p = LED_COUNT;p>0 ; --i,--p){
+    if (i>=0)
+      npSetLED(i, 120, 0, 0);
+    if (p<LED_COUNT)
+      npSetLED(p,0,0,0);
+    npWrite();
+    sleep_ms(200);
+  }
+  npSetLED(0,0,0,0);
+  npWrite();
+}
+void Animacao_8(){
+  npClear();
+  //L
+  for (uint i = 0; i < 6; ++i)
+    npSetLED(i, 120, 0, 0);
+  npSetLED(14,120,0,0);
+  npSetLED(15,120,0,0);
+  npSetLED(24,120,0,0);
+  npWrite();
+  sleep_ms(500);
+  //O
+  npClear();
+  npSetLED(1,120,0,0);
+  npSetLED(2,120,0,0);
+  npSetLED(3,120,0,0);
+  npSetLED(5,120,0,0);
+  npSetLED(9,120,0,0);
+  npSetLED(10,120,0,0);
+  npSetLED(14,120,0,0);
+  npSetLED(15,120,0,0);
+  npSetLED(19,120,0,0);
+  npSetLED(21,120,0,0);
+  npSetLED(22,120,0,0);
+  npSetLED(23,120,0,0);
+  npWrite();
+  sleep_ms(500);
+  //V
+  npClear();
+  npSetLED(2,120,0,0);
+  npSetLED(6,120,0,0);
+  npSetLED(8,120,0,0);
+  npSetLED(10,120,0,0);
+  npSetLED(14,120,0,0);
+  npSetLED(15,120,0,0);
+  npSetLED(19,120,0,0);
+  npSetLED(20,120,0,0);
+  npSetLED(24,120,0,0);
+  npWrite();
+  sleep_ms(500);
+  //E
+  npClear();
+  npSetLED(20,120,0,0);
+  npSetLED(21,120,0,0);
+  npSetLED(22,120,0,0);
+  npSetLED(23,120,0,0);
+  npSetLED(24,120,0,0);
+  npSetLED(15,120,0,0);
+  npSetLED(14,120,0,0);
+  npSetLED(5,120,0,0);
+  npSetLED(0,120,0,0);
+  npSetLED(1,120,0,0);
+  npSetLED(2,120,0,0);
+  npSetLED(3,120,0,0);
+  npSetLED(4,120,0,0);
+  npSetLED(10,120,0,0);
+  npSetLED(11,120,0,0);
+  npSetLED(12,120,0,0);
+  npSetLED(13,120,0,0);
+  npWrite();
+  sleep_ms(500);
+  //Coração
+  for (uint i = 0; i < LED_COUNT; ++i)
+    npSetLED(i, 120, 0, 0);
+  npSetLED(0,0,0,0);
+  npSetLED(1,0,0,0);
+  npSetLED(3,0,0,0);
+  npSetLED(4,0,0,0);
+  npSetLED(5,0,0,0);
+  npSetLED(9,0,0,0);
+  npSetLED(20,0,0,0);
+  npSetLED(22,0,0,0);
+  npSetLED(24,0,0,0);
+  npWrite();
+  sleep_ms(500);
+  npClear();
+  npWrite();
+}
+void Animacao_9(){
+  npClear();
+  npSetLED(12,50,50,50);
+  npSetLED(3,50,50,50);
+  npSetLED(6,50,50,50);
+  npSetLED(1,50,50,50);
+  npSetLED(8,50,50,50);
+  npSetLED(14,50,50,50);
+  npSetLED(18,50,50,50);
+  npSetLED(16,50,50,50);
+  npSetLED(22,50,50,50);
+  npSetLED(17,50,50,50);
+  npSetLED(10,50,50,50);
+  npWrite();
+  sleep_ms(50);
+  for (int i = 0;i<7;i++){
+    if (i%2){
+      npSetLED(10,50,50,50);
+      npSetLED(20,0,0,0);
+      gpio_put(BUZZER_PIN,1);
+      sleep_ms(500);
+      gpio_put(BUZZER_PIN,0);
+    }else{
+      npSetLED(20,50,50,50);
+      npSetLED(10,0,0,0);
+      gpio_put(BUZZER_PIN,1);
+      sleep_ms(500);
+      gpio_put(BUZZER_PIN,0);
+    }
+    npWrite();
+    sleep_ms(50);
+  }
+  npClear();
+  npWrite();
+}
