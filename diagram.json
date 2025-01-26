@@ -9,7 +9,7 @@
         "id": "bz1",
         "top": -26.4,
         "left": 126.6,
-        "attrs": { "volume": "0.1" }
+        "attrs": { "volume": "1" }
       },
       { "type": "wokwi-neopixel", "id": "rgb1", "top": 54.1, "left": -145, "attrs": {} },
       { "type": "wokwi-neopixel", "id": "rgb2", "top": 54.1, "left": -116.2, "attrs": {} },

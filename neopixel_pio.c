@@ -74,7 +74,7 @@ int main()
   {
     tecla = AcharDigito();
     Processar(tecla);
-    sleep_ms(1000);
+    sleep_ms(200);
   }
 }
 
@@ -120,45 +120,55 @@ void inicializar(){
   gpio_set_dir(C4, GPIO_IN);
   gpio_pull_up(C4);
 }
-char AcharDigito(){
-  for (int linha = 0; linha < 4; linha++)
-  {
-    // Coloca todas as linhas em nível alto
-    gpio_put(R1, 1);
-    gpio_put(R2, 1);
-    gpio_put(R3, 1);
-    gpio_put(R4, 1);
+char AcharDigito() {
+    for (int linha = 0; linha < 4; linha++) {
+        // Coloca todas as linhas em nível alto
+        gpio_put(R1, 1);
+        gpio_put(R2, 1);
+        gpio_put(R3, 1);
+        gpio_put(R4, 1);
 
-    // Coloca a linha atual em nível baixo
-    switch (linha)
-    {
-    case 0:
-      gpio_put(R1, 0);
-      break;
-    case 1:
-      gpio_put(R2, 0);
-      break;
-    case 2:
-      gpio_put(R3, 0);
-      break;
-    case 3:
-      gpio_put(R4, 0);
-      break;
+        // Coloca a linha atual em nível baixo
+        switch (linha) {
+            case 0: 
+                gpio_put(R1, 0);
+                sleep_ms(50); 
+                break;
+            case 1: 
+                gpio_put(R2, 0);
+                sleep_ms(50); 
+                break;
+            case 2: 
+                gpio_put(R3, 0);
+                sleep_ms(50); 
+                break;
+            case 3: 
+                gpio_put(R4, 0);
+                sleep_ms(50); 
+                break;
+        }
+
+        // Verifica as colunas
+            if (!gpio_get(C1)){
+      
+      return MatrizMapeamento[linha][0];
+      }
+    if (!gpio_get(C2)){
+      
+      return MatrizMapeamento[linha][1];
+      }
+    if (!gpio_get(C3)){
+      
+      return MatrizMapeamento[linha][2];
+      }
+    if (!gpio_get(C4)){
+      
+      return MatrizMapeamento[linha][3];
+      }
     }
 
-    // Verifica as colunas
-    if (!gpio_get(C1))
-      return MatrizMapeamento[linha][0];
-    if (!gpio_get(C2))
-      return MatrizMapeamento[linha][1];
-    if (!gpio_get(C3))
-      return MatrizMapeamento[linha][2];
-    if (!gpio_get(C4))
-      return MatrizMapeamento[linha][3];
-  }
-
-  // Retorna um caractere nulo caso nenhuma tecla tenha sido pressionada
-  return '\0';
+    // Retorna um caractere nulo caso nenhuma tecla tenha sido pressionada
+    return '\0';
 }
 void Processar(char tecla){
 
@@ -171,7 +181,7 @@ void Processar(char tecla){
     ultimaTecla = tecla;
     ExecutaAcao(tecla);
   }
-  sleep_ms(100);
+  sleep_ms(10);
 }
 void ModoBootsel(){
   printf("Entrando em modo BOOTSEL...\n");
@@ -298,13 +308,44 @@ void ExecutaAcao(char tecla)
     break;
   }
 }
-void Animacao_0(){}
-void Animacao_1(){}
-void Animacao_2(){}
-void Animacao_3(){}
-void Animacao_4(){}
-void Animacao_5(){}
-void Animacao_6(){}
-void Animacao_7(){}
-void Animacao_8(){}
-void Animacao_9(){}
+void Animacao_0(){
+  npClear();
+}
+void Animacao_1(){
+  npClear();
+}
+void Animacao_2(){
+  npClear();
+}
+void Animacao_3(){
+  npClear();
+}
+void Animacao_4(){
+  npClear();
+}
+void Animacao_5(){
+  npClear();
+}
+void Animacao_6(){
+  npClear();
+}
+void Animacao_7(){
+  npClear();
+}
+void Animacao_8(){
+  npClear();
+}
+void Animacao_9(){
+  npClear();
+  npSetLED(12,255,255,255);
+  npSetLED(3,255,255,255);
+  npSetLED(6,255,255,255);
+  npSetLED(1,255,255,255);
+  npSetLED(8,255,255,255);
+  npSetLED(10,255,255,255);
+  npSetLED(14,255,255,255);
+  npSetLED(18,255,255,255);
+  npSetLED(16,255,255,255);
+  npSetLED(22,255,255,255);
+  npWrite();
+}
