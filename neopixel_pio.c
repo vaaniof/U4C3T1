@@ -310,6 +310,17 @@ void ExecutaAcao(char tecla)
 }
 void Animacao_0(){
   npClear();
+  npSetLED(0,120,0,0);
+  npWrite();
+  sleep_ms(200);
+  for (uint i = 1,p = 0; p < LED_COUNT; ++i,++p){
+    if (i<LED_COUNT)
+      npSetLED(i, 120, 0, 0);
+    npSetLED(p,0,0,0);
+    npWrite();
+    sleep_ms(200);
+  }
+  
 }
 void Animacao_1(){
   npClear();
