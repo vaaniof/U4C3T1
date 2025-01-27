@@ -63,11 +63,14 @@ Após a inicialização, pressione as teclas do teclado matricial para acionar d
 - **Tecla 'C'**: Acende todos os LEDs em vermelho com 80% da intensidade.
 - **Tecla 'D'**: Acende todos os LEDs em verde com 50% da intensidade.
 - **Tecla '#'**: Acende todos os LEDs brancos com 20% da intensidade.
-- - **Tecla '*'**: Entra no modo BOOTSEL.
+- **Tecla '*'**: Entra no modo BOOTSEL.
 
 ### Buzzer
 
 O buzzer emite sons em resposta a certas animações, dependendo das teclas pressionadas.
+
+## Vídeo de Demonstração do Funcionamento
+- https://drive.google.com/file/d/1k39fzaq9lup4DZQSjDOwJ5N6A02BMdOn/view?usp=drive_link
 
 ## Tecnologias Utilizadas
 
